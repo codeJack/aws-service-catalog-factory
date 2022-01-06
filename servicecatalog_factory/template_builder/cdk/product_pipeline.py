@@ -206,9 +206,10 @@ class CDK100Template(BaseTemplate):
                                     install={
                                         "runtime-versions": runtime_versions,
                                         "commands": [
-                                            f"pip install {constants.VERSION}"
+                                            "python3 -m venv .sct-venv",
+                                            f".sct-venv/bin/python -m pip install {constants.VERSION}"
                                             if "http" in constants.VERSION
-                                            else f"pip install aws-service-catalog-factory=={constants.VERSION}",
+                                            else f".sct-venv/bin/python -m pip install aws-service-catalog-factory=={constants.VERSION}",
                                         ]
                                         + extra_commands,
                                     },
@@ -220,7 +221,7 @@ class CDK100Template(BaseTemplate):
                                     },
                                     build={
                                         "commands": [
-                                            f"servicecatalog-factory generate-template $PROVISIONER_NAME $PROVISIONER_VERSION $NAME $VERSION . > product.template.yaml",
+                                            f".sct-venv/bin/python -m servicecatalog-factory generate-template $PROVISIONER_NAME $PROVISIONER_VERSION $NAME $VERSION . > product.template.yaml",
                                         ]
                                     },
                                 ),
